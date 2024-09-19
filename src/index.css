@@ -1,0 +1,31 @@
+:root {
+  --colorPrimary: #f77f00;
+  --colorbgbase: white;
+  --colortextbase: #1f1000;
+  --colortextsecondary: #fff;
+  --colorborder: #df3e1e;
+  --colorbgheader: #f77f00;
+}
+/* Hide default scrollbar (except on hover) */
+::-webkit-scrollbar {
+  height: 0px; /* Adjust scrollbar height */
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Track color */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #888; /* Scrollbar thumb color */
+  border-radius: 10px; /* Rounded corners */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* Darker thumb on hover */
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
