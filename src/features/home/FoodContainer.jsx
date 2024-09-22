@@ -1,46 +1,29 @@
 import { Col, Pagination, Row, Spin } from "antd";
 import WrappedCard from "../../ui/WrappedCard";
 import Title from "antd/es/typography/Title";
-import { useState } from "react";
-import {
-  useGetFiltrationItemsQuery,
-  useGetFoodsByFiltrationQuery,
-  useGetMealsByCategoryQuery,
-} from "../api/mealApiSlice";
+import { useGetFoodsByMultipleFiltration } from "../../hooks/useGetFoodsByMultipleFiltration";
 const PAGE_SIZE = 12;
 function FoodContainer({
-  filtrationChoiceLabel,
-  filtrationItemLabel,
-  filtrationType,
   type,
   currentPage,
   handlePagination,
+  chosenFiltrationOptions,
 }) {
   const startIndex = (currentPage - 1) * PAGE_SIZE;
+  const { filteredFoodArray: filteredFood, isLoading } =
+    useGetFoodsByMultipleFiltration(type, chosenFiltrationOptions);
+  const data = filteredFood?.length !== 0 ? filteredFood : [];
+  let thumbKey = type === "meals" ? "strMealThumb" : "strDrinkThumb";
+  let valueKey = type === "meals" ? "strMeal" : "strDrink";
+  let idKey = type === "meals" ? "idMeal" : "idDrink";
 
-  const { data, error, isLoading } = useGetFoodsByFiltrationQuery(
-    { type, filtrationChoiceLabel, filtrationItemLabel },
-    {
-      skip: filtrationItemLabel === "" || !filtrationChoiceLabel,
-    }
-  );
-  let thumbKey;
-  let valueKey;
-  let arrayKey;
-  let idKey;
-  if (type === "meals") {
-    thumbKey = "strMealThumb";
-    valueKey = "strMeal";
-    arrayKey = "meals";
-    idKey = "idMeal";
+  let paginatedItems;
+  if (!data) {
+    paginatedItems = [];
   } else {
-    thumbKey = "strDrinkThumb";
-    valueKey = "strDrink";
-    arrayKey = "drinks";
-    idKey = "idDrink";
+    paginatedItems = data?.slice(startIndex, startIndex + PAGE_SIZE);
   }
-  const paginatedItems =
-    data?.[arrayKey]?.slice(startIndex, startIndex + PAGE_SIZE) || [];
+
   return (
     <>
       {isLoading && <Spin tip="Loading meals..." size="large" />}
@@ -51,12 +34,17 @@ function FoodContainer({
             onChange={handlePagination}
             pageSize={PAGE_SIZE}
             align="center"
-            total={data?.[arrayKey]?.length}
+            total={data?.length}
             style={{ marginBottom: "20px" }}
           />
+          (
           <Row justify={"left"} gutter={40} style={{ padding: "0px 120px" }}>
-            {paginatedItems.map((el) => (
-              <Col span={6} style={{ marginBottom: "40px" }}>
+            {paginatedItems?.map((el) => (
+              <Col
+                key={el.idMeal || el.idDrink}
+                span={6}
+                style={{ marginBottom: "40px" }}
+              >
                 <WrappedCard
                   cover={el[thumbKey]}
                   idFood={el[idKey]}
@@ -67,12 +55,13 @@ function FoodContainer({
               </Col>
             ))}
           </Row>
+          )
           <Pagination
             current={currentPage}
             onChange={handlePagination}
             pageSize={PAGE_SIZE}
             align="center"
-            total={data?.[arrayKey]?.length}
+            total={data?.length}
           />
         </>
       )}

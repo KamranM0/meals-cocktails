@@ -1,11 +1,7 @@
 import { Layout } from "antd";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import WrappedHeader from "./WrappedHeader";
-import { useEffect, useState } from "react";
-import Search from "antd/es/transfer/search";
 import SearchResult from "../pages/SearchResult";
-import { Footer } from "antd/es/layout/layout";
-import Paragraph from "antd/es/typography/Paragraph";
 import { useDebouncing } from "../hooks/useDebouncing";
 
 function AppLayout() {

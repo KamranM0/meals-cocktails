@@ -5,8 +5,6 @@ export const mealApiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({ baseUrl: "" }),
   endpoints: (builder) => ({
-    // getCategories: builder.query({ query: (category) => `categories.php` }),
-    // getAreas: builder.query({ query: () => `/list.php?a=` }),
     getFiltrationItems: builder.query({
       query: ({ filtrationChoice, type }) => {
         if (type === "meals") {
@@ -15,6 +13,8 @@ export const mealApiSlice = createApi({
               return MEALS_BASE_URL + "categories.php";
             case "Area":
               return MEALS_BASE_URL + "list.php?a=";
+            case "Ingredients":
+              return MEALS_BASE_URL + "list.php?i=";
             default:
               throw new Error("invalid filtration");
           }
@@ -24,8 +24,10 @@ export const mealApiSlice = createApi({
               return COCKTAILS_BASE_URL + "list.php?c=list";
             case "Glass":
               return COCKTAILS_BASE_URL + "list.php?g=list";
-            case "Alcoholic filter":
+            case "Alcoholic_Filter":
               return COCKTAILS_BASE_URL + "list.php?a=list";
+            case "Ingredients":
+              return COCKTAILS_BASE_URL + "list.php?i=list";
             default:
               throw new Error("invalid filtration");
           }
@@ -59,6 +61,10 @@ export const mealApiSlice = createApi({
               return (
                 MEALS_BASE_URL + `filter.php?a=${dashedFiltrationItemLabel}`
               );
+            case "Ingredients":
+              return (
+                MEALS_BASE_URL + `filter.php?i=${dashedFiltrationItemLabel}`
+              );
             default:
               throw new Error("invalid choice label");
           }
@@ -72,9 +78,13 @@ export const mealApiSlice = createApi({
               return (
                 COCKTAILS_BASE_URL + `filter.php?g=${dashedFiltrationItemLabel}`
               );
-            case "Alcoholic_filter":
+            case "Alcoholic_Filter":
               return (
                 COCKTAILS_BASE_URL + `filter.php?a=${dashedFiltrationItemLabel}`
+              );
+            case "Ingredients":
+              return (
+                COCKTAILS_BASE_URL + `filter.php?i=${dashedFiltrationItemLabel}`
               );
             default:
               throw new Error("err");
@@ -92,13 +102,18 @@ export const mealApiSlice = createApi({
     }),
     getFoodDetailsById: builder.query({
       query: ({ id, type }) => {
-        console.log(type);
         if (type === "meals") {
-          console.log("salam");
           return MEALS_BASE_URL + `lookup.php?i=${id}`;
         } else if ((type = "cocktails")) {
           return COCKTAILS_BASE_URL + `lookup.php?i=${id}`;
         }
+      },
+    }),
+    getRandomFood: builder.query({
+      query: (type) => {
+        return type === "meals"
+          ? MEALS_BASE_URL + "random.php"
+          : COCKTAILS_BASE_URL + "random.php";
       },
     }),
   }),
@@ -110,4 +125,5 @@ export const {
   useGetMealsByQueryQuery,
   useGetCocktailsByQueryQuery,
   useGetFoodDetailsByIdQuery,
+  useGetRandomFoodQuery,
 } = mealApiSlice;

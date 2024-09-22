@@ -1,9 +1,7 @@
 import { Input, Menu, Typography } from "antd";
 import { Header } from "antd/es/layout/layout";
-import Paragraph from "antd/es/skeleton/Paragraph";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useDebouncing } from "../hooks/useDebouncing";
-import { useEffect } from "react";
+
+import { Link, useLocation } from "react-router-dom";
 
 const styles = {
   header: {
@@ -28,6 +26,20 @@ const styles = {
 function WrappedHeader({ input, setInput, query }) {
   const { Title } = Typography;
   const resetQuery = () => setInput("");
+  const location = useLocation();
+  const path = location.pathname.slice(1, location.pathname.length);
+  const isFavButtonActive = path === "favorites";
+
+  const items = [
+    {
+      key: "1",
+      label: (
+        <Link to="favorites" style={{ fontSize: "16px" }} onClick={resetQuery}>
+          Favorites
+        </Link>
+      ),
+    },
+  ];
   return (
     <Header style={styles.header}>
       <Link to="/" onClick={resetQuery}>
@@ -46,11 +58,11 @@ function WrappedHeader({ input, setInput, query }) {
         size="large"
         placeholder="Type..."
       ></Input.Search>
-      <Menu style={styles.menu}>
-        <Menu.Item>
-          <p>Salam</p>
-        </Menu.Item>
-      </Menu>
+      <Menu
+        selectedKeys={isFavButtonActive ? ["1"] : null}
+        style={styles.menu}
+        items={items}
+      ></Menu>
     </Header>
   );
 }

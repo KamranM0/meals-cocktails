@@ -1,18 +1,26 @@
-import { Image, Menu } from "antd";
-import Title from "antd/es/typography/Title";
-import { useState } from "react";
+import { Menu } from "antd";
 
 function FiltrationItems({
   selectedFiltrationItemsKey,
   refinedFiltrationItemsArray,
+  setChosenFiltrationOptions,
+  chosenFiltrationOptions,
   setCurrentPage,
   setSelectedFiltrationItemsKey,
+  categoryItemLabel,
 }) {
   return (
     <Menu
       selectedKeys={selectedFiltrationItemsKey}
-      onSelect={(item) => {
+      onClick={(item) => {
         setCurrentPage(1);
+        setChosenFiltrationOptions({
+          ...chosenFiltrationOptions,
+          Category: categoryItemLabel,
+        });
+        if (selectedFiltrationItemsKey === item.key) {
+          return setSelectedFiltrationItemsKey(null);
+        }
         setSelectedFiltrationItemsKey(item.key);
       }}
       items={refinedFiltrationItemsArray}
@@ -24,42 +32,6 @@ function FiltrationItems({
       }}
       mode="horizontal"
     ></Menu>
-    // <ul
-    //   style={{
-    //     display: "flex",
-    //     gap: "30px",
-    //     justifyContent: "start",
-    //     overflowX: "scroll",
-    //     width: "100%",
-    //     listStyle: "none",
-    //     padding: 0,
-    //     height: "auto",
-    //     alignItems: "stretch",
-    //   }}
-    // >
-    //   {refinedFiltrationItemsArray.map((el) => (
-    //     <li
-    //       onMouseEnter={handleMouseEnter}
-    //       onMouseLeave={handleMouseLeave}
-    //       style={
-    //         isHovered
-    //           ? {
-    //               background: "red",
-    //               padding: "10px",
-    //               borderRadius: "20px",
-    //               ...hoverStyle,
-    //             }
-    //           : {
-    //               background: "red",
-    //               padding: "10px",
-    //               borderRadius: "20px",
-    //             }
-    //       }
-    //     >
-    //       {el.label}
-    //     </li>
-    //   ))}
-    // </ul>
   );
 }
 

@@ -29,6 +29,16 @@ export function refineObjToArray(
       valueKey = "strArea";
       idKey = null;
       break;
+    case "Ingredients":
+      if (type === "meals") {
+        thumbKey = null;
+        valueKey = "strIngredient";
+      } else {
+        valueKey = "strIngredient1";
+        thumbKey = null;
+      }
+
+      break;
     case "Glass":
       thumbKey = null;
       valueKey = "strGlass";
@@ -82,4 +92,22 @@ export function getProportions(el) {
     });
 
   return measuresKeys;
+}
+export const getIntersectionById = (type, ...arrays) => {
+  let idKey = type === "meals" ? "idMeal" : "idDrink";
+  const validArrays = arrays.filter((array) => array && array.length > 0);
+
+  if (validArrays.length === 0) return [];
+
+  return validArrays.reduce((a, b) =>
+    a.filter((c) => b.some((d) => d[idKey] === c[idKey]))
+  );
+};
+
+export function getFromLocalStorage(key) {
+  const items = localStorage.getItem(key);
+  return items ? JSON.parse(items) : [];
+}
+export function addToLocalStorage(key, input) {
+  localStorage.setItem(key, JSON.stringify(input));
 }

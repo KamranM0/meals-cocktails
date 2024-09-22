@@ -4,7 +4,8 @@ import App from "./App.jsx";
 import "./index.css";
 import { ConfigProvider } from "antd";
 import { Provider } from "react-redux";
-import { store } from "./store.js";
+import { persistor, store } from "./store.js";
+import { PersistGate } from "redux-persist/integration/react";
 const myTheme = {
   token: {
     colorPrimary: "#f77f00",
@@ -17,11 +18,12 @@ const myTheme = {
 };
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
-    {" "}
-    <ConfigProvider theme={myTheme}>
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
-    </ConfigProvider>
+    <PersistGate loading={null} persistor={persistor}>
+      <ConfigProvider theme={myTheme}>
+        <React.StrictMode>
+          <App />
+        </React.StrictMode>
+      </ConfigProvider>
+    </PersistGate>
   </Provider>
 );

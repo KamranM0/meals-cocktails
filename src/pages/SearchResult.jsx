@@ -24,9 +24,7 @@ function SearchResult({ query }) {
     isLoading: cocktailIsLoading,
   } = useGetCocktailsByQueryQuery(query);
   let resultArray = [];
-  console.log("cocktailData", cocktailData);
-  console.log("MealData: ", mealData);
-  console.log(cocktailData === undefined);
+
   if (!cocktailIsLoading && !mealIsLoading) {
     if (cocktailData.drinks === null && mealData.meals === null) {
       resultArray = [];
@@ -41,13 +39,8 @@ function SearchResult({ query }) {
     resultArray = [];
   }
 
-  console.log(query);
-  console.log(resultArray);
   return (
     <>
-      <Button style={{ position: "absolute", top: "0px", left: "0px" }}>
-        Back
-      </Button>
       <Row
         justify={"left"}
         gutter={20}
@@ -56,7 +49,11 @@ function SearchResult({ query }) {
         {resultArray.map((el) => {
           const type = getType(el);
           return (
-            <Col span={6} style={{ marginBottom: "20px" }}>
+            <Col
+              key={el.idMeal || el.idDrink}
+              span={6}
+              style={{ marginBottom: "20px" }}
+            >
               <WrappedCard
                 type={type}
                 idFood={el.idDrink || el.idMeal}
