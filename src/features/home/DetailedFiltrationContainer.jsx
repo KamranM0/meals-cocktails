@@ -21,14 +21,13 @@ const DetailedFiltrationContainer = ({
     isFiltrationLoading,
   } = useGetAllFiltrationItems(type);
 
-  useEffect(
-    () =>
-      setChosenFiltrationOptions((prevState) => ({
-        ...prevState,
-        Category: categoryItemLabel,
-      })),
-    [type, setChosenFiltrationOptions, categoryItemLabel]
-  );
+  useEffect(() => {
+    setChosenFiltrationOptions((prevState) => ({
+      ...prevState,
+      Category: categoryItemLabel,
+    }));
+    handlePagination(1);
+  }, [type, setChosenFiltrationOptions, categoryItemLabel, handlePagination]);
   const handleClick = (el, item) => {
     if (chosenFiltrationOptions[el] !== item.value)
       setChosenFiltrationOptions({
