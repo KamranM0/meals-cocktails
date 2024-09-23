@@ -91,6 +91,7 @@ const MealPage = () => {
                   margin: "10px",
                   color: "white",
                   fontSize: "60px",
+                  cursor: "pointer",
                 }}
                 onClick={handleClick}
               >
@@ -136,6 +137,8 @@ const MealPage = () => {
                 background: "",
                 border: "1px dashed black",
                 borderTop: "0px",
+                borderBottom: "0px",
+                borderLeft: "0px",
               }}
             >
               <Title
@@ -172,10 +175,6 @@ const MealPage = () => {
               span={12}
               style={{
                 background: "",
-
-                border: "1px dashed black",
-                borderTop: "0px",
-                borderLeft: "0px",
               }}
             >
               <Title

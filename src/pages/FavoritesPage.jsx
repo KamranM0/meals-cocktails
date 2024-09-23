@@ -68,6 +68,7 @@ const FavoritesPage = () => {
               size={"10px"}
               width={"20px"}
               style={{
+                cursor: "pointer",
                 position: "absolute",
                 right: "0px",
                 marginRight: "20px",
