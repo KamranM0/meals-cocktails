@@ -23,7 +23,7 @@ const styles = {
   title: { alignSelf: "center", color: "white", margin: 0 },
 };
 
-function WrappedHeader({ input, setInput, query }) {
+const WrappedHeader = ({ input, setInput }) => {
   const { Title } = Typography;
   const resetQuery = () => setInput("");
   const location = useLocation();
@@ -34,7 +34,11 @@ function WrappedHeader({ input, setInput, query }) {
     {
       key: "1",
       label: (
-        <Link to="favorites" style={{ fontSize: "16px" }} onClick={resetQuery}>
+        <Link
+          to="favorites"
+          style={{ fontSize: "16px", color: "white" }}
+          onClick={resetQuery}
+        >
           Favorites
         </Link>
       ),
@@ -65,6 +69,6 @@ function WrappedHeader({ input, setInput, query }) {
       ></Menu>
     </Header>
   );
-}
+};
 
 export default WrappedHeader;

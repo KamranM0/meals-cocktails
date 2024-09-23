@@ -4,7 +4,7 @@ import Home from "./pages/Home";
 import MealPage from "./pages/MealPage";
 import FavoritesPage from "./pages/FavoritesPage";
 
-function App() {
+const App = () => {
   return (
     <BrowserRouter>
       <Routes>
@@ -19,6 +19,6 @@ function App() {
       </Routes>
     </BrowserRouter>
   );
-}
+};
 
 export default App;

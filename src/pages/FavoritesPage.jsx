@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { removeFromFavs } from "../features/favorites/favoritesSlice";
 
-function FavoritesPage() {
+const FavoritesPage = () => {
   const favoritesList = useSelector((state) => state.favorites.favoritesList);
   const dispatch = useDispatch();
   const handleRemove = (el) => dispatch(removeFromFavs(el.idFood));
@@ -83,6 +83,6 @@ function FavoritesPage() {
       ))}
     </Row>
   );
-}
+};
 
 export default FavoritesPage;

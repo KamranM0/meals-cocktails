@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
-export function useDebouncing() {
+export const useDebouncing = () => {
   const [input, setInput] = useState("");
   const [query, setQuery] = useState(input);
   const location = useLocation();
@@ -16,4 +16,4 @@ export function useDebouncing() {
     };
   }, [input]);
   return { input, setInput, query, isSearching };
-}
+};

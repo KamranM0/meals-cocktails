@@ -12,7 +12,7 @@ const filtrationChoicesForCocktails = [
   { key: "4", label: "Ingredients" },
 ];
 const PAGE_SIZE = 30;
-export function useGetAllFiltrationItems(type) {
+export const useGetAllFiltrationItems = (type) => {
   //meals services
   const {
     data: areaItems,
@@ -121,7 +121,18 @@ export function useGetAllFiltrationItems(type) {
         Ingredients: paginatedIngredients,
       };
     }
-
+  const isFiltrationLoading =
+    areaIsLoading ||
+    cocktailIngredientsIsLoading ||
+    alcoholicIsLoading ||
+    glassIsLoading ||
+    mealIngredientsIsLoading;
+  const isErrorOccurred =
+    areaError ||
+    cocktailIngredientsError ||
+    alcoholicError ||
+    glassError ||
+    mealIngredientsError;
   const totalNumOfIngredients =
     type === "meals"
       ? mealIngredientsItems?.meals?.length
@@ -136,5 +147,7 @@ export function useGetAllFiltrationItems(type) {
     handlePagination,
     choicesLabelsArray,
     totalNumOfIngredients,
+    isErrorOccurred,
+    isFiltrationLoading,
   };
-}
+};

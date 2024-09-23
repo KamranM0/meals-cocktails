@@ -1,4 +1,4 @@
-import { Radio, Row, Space } from "antd";
+import { Radio, Row, Space, Spin } from "antd";
 import Title from "antd/es/typography/Title";
 import FoodContainer from "../features/home/FoodContainer";
 import { useState } from "react";
@@ -8,11 +8,11 @@ import { refineObjToArray } from "../utils/helpers";
 import { useLocation, useNavigate } from "react-router-dom";
 import DetailedFiltrationContainer from "../features/home/DetailedFiltrationContainer";
 import RandomMeal from "../features/home/RandomMeal";
+import ErrorPage from "./ErrorPage";
 const categoriesObj = { key: "1", label: "Category" };
 
 const Home = () => {
   const [selectedCategoryItemKey, setSelectedCategoryItemKey] = useState("1");
-  const [currentPage, setCurrentPage] = useState(1);
   const location = useLocation();
   const navigate = useNavigate();
   const type = location.pathname.slice(1, location.pathname.length);
@@ -25,7 +25,10 @@ const Home = () => {
     filtrationChoice: categoriesObj,
     type: type,
   });
+  //pagination
+  const [currentPage, setCurrentPage] = useState(1);
   const handlePagination = (page) => setCurrentPage(page);
+
   const refinedCategoryItemsArray = refineObjToArray(
     type,
     categoriesObj?.label,
@@ -42,19 +45,20 @@ const Home = () => {
   const [chosenFiltrationOptions, setChosenFiltrationOptions] = useState({
     Category: selectedCategoryItemLabel,
   });
+  const handleChangeType = (e) => {
+    setSelectedCategoryItemKey("1");
 
-  return (
+    navigate(`/${e.target.value}`);
+  };
+  if (categoryItemsError) return <ErrorPage />;
+
+  return categoryItemsIsLoading ? (
+    <Spin />
+  ) : (
     <Space size={"large"} direction="vertical" style={{ width: "100%" }}>
       <Title level={3}>Type</Title>
       <Row>
-        <Radio.Group
-          size="large"
-          value={type}
-          onChange={(e) => {
-            setSelectedCategoryItemKey("1");
-            navigate(`/${e.target.value}`);
-          }}
-        >
+        <Radio.Group size="large" value={type} onChange={handleChangeType}>
           <Radio.Button value={"meals"}>Meals</Radio.Button>
           <Radio.Button value={"cocktails"}>Cocktails</Radio.Button>
         </Radio.Group>

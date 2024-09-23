@@ -1,18 +1,19 @@
-import { Button, Col, Row } from "antd";
+import { Col, Row } from "antd";
 import WrappedCard from "../ui/WrappedCard";
 import Title from "antd/es/typography/Title";
 import {
   useGetCocktailsByQueryQuery,
   useGetMealsByQueryQuery,
 } from "../features/api/mealApiSlice";
-function getType(foodObj) {
+import ErrorPage from "./ErrorPage";
+const getType = (foodObj) => {
   if (foodObj.idMeal) {
     return "meals";
   } else if (foodObj.idDrink) {
     return "cocktails";
   }
-}
-function SearchResult({ query }) {
+};
+const SearchResult = ({ query }) => {
   const {
     data: mealData,
     error: mealError,
@@ -38,7 +39,8 @@ function SearchResult({ query }) {
   } else {
     resultArray = [];
   }
-
+  const isErrorOccurred = mealError || cocktailError;
+  if (isErrorOccurred) return <ErrorPage />;
   return (
     <>
       <Row
@@ -67,6 +69,6 @@ function SearchResult({ query }) {
       </Row>
     </>
   );
-}
+};
 
 export default SearchResult;

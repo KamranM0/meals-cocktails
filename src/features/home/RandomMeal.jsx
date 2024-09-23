@@ -2,8 +2,9 @@ import { Button, Col, Row } from "antd";
 import WrappedCard from "../../ui/WrappedCard";
 import Title from "antd/es/typography/Title";
 import { useGetRandomFoodQuery } from "../api/mealApiSlice";
+import ErrorPage from "../../pages/ErrorPage";
 
-function RandomMeal() {
+const RandomMeal = () => {
   const {
     data: randomMeal,
     isLoading: randomMealIsLoading,
@@ -22,7 +23,9 @@ function RandomMeal() {
     refetchMeal();
   };
   const handleDrinkClick = () => refetchDrink();
+  const isErrorOccurred = randomDrinkError || randomMealError;
   const isLoading = randomDrinkIsLoading || randomMealIsLoading;
+  if (isErrorOccurred) return <ErrorPage />;
   return (
     !isLoading && (
       <>
@@ -71,6 +74,6 @@ function RandomMeal() {
       </>
     )
   );
-}
+};
 
 export default RandomMeal;

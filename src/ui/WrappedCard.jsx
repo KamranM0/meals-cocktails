@@ -7,7 +7,7 @@ import {
   removeFromFavs,
 } from "../features/favorites/favoritesSlice";
 
-function WrappedCard({ cover, children, style, idFood, type }) {
+const WrappedCard = ({ cover, children, style, idFood, type }) => {
   const dispatch = useDispatch();
   const favoritesList = useSelector((state) => state.favorites.favoritesList);
   const foodObj = {
@@ -17,14 +17,14 @@ function WrappedCard({ cover, children, style, idFood, type }) {
     type: type,
   };
   const isHeartActive = favoritesList?.some((el) => el.idFood === idFood);
-  function handleClick() {
+  const handleClick = () => {
     if (!isHeartActive) {
       dispatch(addToFavs(foodObj));
     } else {
       console.log("girdimki");
       dispatch(removeFromFavs(idFood));
     }
-  }
+  };
   return (
     <Card
       hoverable
@@ -57,23 +57,6 @@ function WrappedCard({ cover, children, style, idFood, type }) {
           >
             {!isHeartActive ? <HeartOutlined /> : <HeartFilled />}
           </div>
-          {/* <Button
-            hoverable
-            style={{
-              position: "absolute",
-              top: "0",
-              right: "0",
-              width: 80,
-              borderRadius: 15,
-              margin: 10,
-              border: "none",
-              height: 50,
-              color: "white",
-              display: "inline",
-            }}
-          >
-            +
-          </Button> */}
         </>
       }
     >
@@ -83,6 +66,6 @@ function WrappedCard({ cover, children, style, idFood, type }) {
       </Link>
     </Card>
   );
-}
+};
 
 export default WrappedCard;

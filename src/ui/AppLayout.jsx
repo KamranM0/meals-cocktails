@@ -4,7 +4,7 @@ import WrappedHeader from "./WrappedHeader";
 import SearchResult from "../pages/SearchResult";
 import { useDebouncing } from "../hooks/useDebouncing";
 
-function AppLayout() {
+const AppLayout = () => {
   const { Content } = Layout;
   const { input, setInput, query, isSearching } = useDebouncing();
 
@@ -29,6 +29,6 @@ function AppLayout() {
       </Content>
     </Layout>
   );
-}
+};
 
 export default AppLayout;

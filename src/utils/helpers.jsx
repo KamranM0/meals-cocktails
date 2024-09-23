@@ -1,11 +1,11 @@
 import { Image } from "antd";
 import Title from "antd/es/typography/Title";
 
-export function refineObjToArray(
+export const refineObjToArray = (
   type,
   filtrationChoiceLabel,
   filtrationItemsObj
-) {
+) => {
   let thumbKey;
   let valueKey;
   let idKey;
@@ -71,8 +71,8 @@ export function refineObjToArray(
           };
         });
   return refinedFiltrationItemsArray;
-}
-export function getIngredients(el) {
+};
+export const getIngredients = (el) => {
   const ingredientsKeys = Object.keys(el)
     .filter(
       (key) => key.includes("Ingredient") && el[key] !== "" && el[key] !== null
@@ -81,8 +81,8 @@ export function getIngredients(el) {
       return el[item] !== "" ? el[item] : null;
     });
   return ingredientsKeys;
-}
-export function getProportions(el) {
+};
+export const getProportions = (el) => {
   const measuresKeys = Object.keys(el)
     .filter(
       (key) => key.includes("Measure") && el[key] !== "" && el[key] !== null
@@ -92,7 +92,7 @@ export function getProportions(el) {
     });
 
   return measuresKeys;
-}
+};
 export const getIntersectionById = (type, ...arrays) => {
   let idKey = type === "meals" ? "idMeal" : "idDrink";
   const validArrays = arrays.filter((array) => array && array.length > 0);
@@ -104,10 +104,10 @@ export const getIntersectionById = (type, ...arrays) => {
   );
 };
 
-export function getFromLocalStorage(key) {
+export const getFromLocalStorage = (key) => {
   const items = localStorage.getItem(key);
   return items ? JSON.parse(items) : [];
-}
-export function addToLocalStorage(key, input) {
+};
+export const addToLocalStorage = (key, input) => {
   localStorage.setItem(key, JSON.stringify(input));
-}
+};

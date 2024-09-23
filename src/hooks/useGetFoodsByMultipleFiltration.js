@@ -1,9 +1,13 @@
 import { useGetFoodsByFiltrationQuery } from "../features/api/mealApiSlice";
 import { getIntersectionById } from "../utils/helpers";
 
-export function useGetFoodsByMultipleFiltration(type, chosenFiltrationOptions) {
+export const useGetFoodsByMultipleFiltration = (
+  type,
+  chosenFiltrationOptions
+) => {
   const isMealType = type === "meals";
   //meals
+  console.log(chosenFiltrationOptions);
   const {
     data: categoryFilteredMeals,
     isLoading: categoryFilteredMealsIsLoading,
@@ -131,33 +135,41 @@ export function useGetFoodsByMultipleFiltration(type, chosenFiltrationOptions) {
       glassFilteredIsLoading ||
       alcoholicFilteredIsLoading ||
       ingredientFilteredIsLoading;
+  const isFoodFiltrationErrorOccurred = isMealType
+    ? categoryFilteredMealsError ||
+      areaFilteredError ||
+      ingredientFilteredMealsError
+    : categoryFilteredDrinksError ||
+      glassFilteredError ||
+      alcoholicFilteredError ||
+      ingredientFilteredError;
   const resultCategoryFilteredMeals =
     chosenFiltrationOptions?.Category && isMealType && !isLoading
-      ? categoryFilteredMeals.meals
+      ? categoryFilteredMeals?.meals
       : null;
   const resultAreaFilteredMeals =
     chosenFiltrationOptions?.Area && isMealType && !isLoading
-      ? areaFilteredMeals.meals
+      ? areaFilteredMeals?.meals
       : null;
   const resultIngredientFilteredMeals =
     chosenFiltrationOptions?.Ingredients && isMealType && !isLoading
-      ? ingredientFilteredMeals.meals
+      ? ingredientFilteredMeals?.meals
       : null;
   const resultGlassFilteredDrinks =
     chosenFiltrationOptions?.Glass && !isMealType && !isLoading
-      ? glassFilteredDrinks.drinks
+      ? glassFilteredDrinks?.drinks
       : null;
   const resultCategoryFilteredDrinks =
     chosenFiltrationOptions?.Category && !isMealType && !isLoading
-      ? categoryFilteredDrinks.drinks
+      ? categoryFilteredDrinks?.drinks
       : null;
   const resultAlcoholicFilteredDrinks =
     chosenFiltrationOptions?.Alcoholic_Filter && !isMealType && !isLoading
-      ? alcoholicFilteredDrinks.drinks
+      ? alcoholicFilteredDrinks?.drinks
       : null;
   const resultIngredientFilteredDrinks =
     chosenFiltrationOptions?.Ingredients && !isMealType && !isLoading
-      ? ingredientFilteredDrinks.drinks
+      ? ingredientFilteredDrinks?.drinks
       : null;
 
   const filteredDrinksArray = getIntersectionById(
@@ -176,5 +188,6 @@ export function useGetFoodsByMultipleFiltration(type, chosenFiltrationOptions) {
   const filteredFoodArray = isMealType
     ? filteredMealsArray
     : filteredDrinksArray;
-  return { filteredFoodArray, isLoading };
-}
+
+  return { filteredFoodArray, isLoading, isFoodFiltrationErrorOccurred };
+};

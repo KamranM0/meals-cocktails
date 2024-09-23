@@ -1,6 +1,6 @@
 import { Menu } from "antd";
 
-function FiltrationItems({
+const FiltrationItems = ({
   selectedFiltrationItemsKey,
   refinedFiltrationItemsArray,
   setChosenFiltrationOptions,
@@ -8,21 +8,22 @@ function FiltrationItems({
   setCurrentPage,
   setSelectedFiltrationItemsKey,
   categoryItemLabel,
-}) {
+}) => {
+  const handleClick = (item) => {
+    setCurrentPage(1);
+    setChosenFiltrationOptions({
+      ...chosenFiltrationOptions,
+      Category: categoryItemLabel,
+    });
+    if (selectedFiltrationItemsKey === item.key) {
+      return setSelectedFiltrationItemsKey(null);
+    }
+    setSelectedFiltrationItemsKey(item.key);
+  };
   return (
     <Menu
       selectedKeys={selectedFiltrationItemsKey}
-      onClick={(item) => {
-        setCurrentPage(1);
-        setChosenFiltrationOptions({
-          ...chosenFiltrationOptions,
-          Category: categoryItemLabel,
-        });
-        if (selectedFiltrationItemsKey === item.key) {
-          return setSelectedFiltrationItemsKey(null);
-        }
-        setSelectedFiltrationItemsKey(item.key);
-      }}
+      onClick={(item) => handleClick(item)}
       items={refinedFiltrationItemsArray}
       style={{
         background: "transparent",
@@ -33,6 +34,6 @@ function FiltrationItems({
       mode="horizontal"
     ></Menu>
   );
-}
+};
 
 export default FiltrationItems;

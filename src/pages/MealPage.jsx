@@ -4,8 +4,15 @@ import { Col, Image, Row, Space } from "antd";
 import Title from "antd/es/typography/Title";
 import Paragraph from "antd/es/typography/Paragraph";
 import { getIngredients, getProportions } from "../utils/helpers";
+import ErrorPage from "./ErrorPage";
+import { HeartFilled, HeartOutlined } from "@ant-design/icons";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addToFavs,
+  removeFromFavs,
+} from "../features/favorites/favoritesSlice";
 
-function MealPage() {
+const MealPage = () => {
   const { type, id } = useParams();
   let thumbKey;
   let nameKey;
@@ -23,10 +30,28 @@ function MealPage() {
     arrayKey = "drinks";
     secondaryHeaderKey = "strAlcoholic";
   }
+  const favoritesList = useSelector((state) => state.favorites.favoritesList);
+  const dispatch = useDispatch();
+  const isHeartActive = favoritesList?.some((el) => el.idFood === id);
   const foodObj = data?.[arrayKey][0];
+  console.log(foodObj);
+  const idKey = type === "meals" ? "idMeal" : "idDrink";
+  const strKey = type === "meals" ? "strMeal" : "strDrink";
+  const strThumbKey = type === "meals" ? "strMealThumb" : "strDrinkThumb";
+  const foodObjForFavs = {
+    idFood: foodObj?.[idKey],
+    strFood: foodObj?.[strKey],
+    strFoodThumb: foodObj?.[strThumbKey],
+  };
+  const handleClick = () =>
+    !isHeartActive
+      ? dispatch(addToFavs(foodObjForFavs))
+      : dispatch(removeFromFavs(foodObjForFavs?.idFood));
   const ingredients = !isLoading ? getIngredients(foodObj) : [];
   const measures = !isLoading ? getProportions(foodObj) : [];
-
+  if (error) {
+    return <ErrorPage />;
+  }
   return (
     <Row
       style={{
@@ -59,7 +84,19 @@ function MealPage() {
                 style={{ borderTopLeftRadius: "20px" }}
               />
             </Col>
-            <Col span={20}>
+            <Col span={20} style={{ position: "relative" }}>
+              <div
+                style={{
+                  position: "absolute",
+                  right: "0",
+                  margin: "10px",
+                  color: "white",
+                  fontSize: "60px",
+                }}
+                onClick={handleClick}
+              >
+                {isHeartActive ? <HeartFilled /> : <HeartOutlined />}
+              </div>
               <Space style={{ margin: "20px" }} direction="vertical">
                 <Title
                   level={1}
@@ -163,6 +200,6 @@ function MealPage() {
       )}
     </Row>
   );
-}
+};
 
 export default MealPage;

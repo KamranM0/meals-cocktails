@@ -2,17 +2,22 @@ import { Col, Pagination, Row, Spin } from "antd";
 import WrappedCard from "../../ui/WrappedCard";
 import Title from "antd/es/typography/Title";
 import { useGetFoodsByMultipleFiltration } from "../../hooks/useGetFoodsByMultipleFiltration";
+import ErrorPage from "../../pages/ErrorPage";
 const PAGE_SIZE = 12;
-function FoodContainer({
+const FoodContainer = ({
   type,
   currentPage,
   handlePagination,
   chosenFiltrationOptions,
-}) {
+}) => {
   const startIndex = (currentPage - 1) * PAGE_SIZE;
-  const { filteredFoodArray: filteredFood, isLoading } =
-    useGetFoodsByMultipleFiltration(type, chosenFiltrationOptions);
+  const {
+    filteredFoodArray: filteredFood,
+    isLoading,
+    isFoodFiltrationErrorOccurred,
+  } = useGetFoodsByMultipleFiltration(type, chosenFiltrationOptions);
   const data = filteredFood?.length !== 0 ? filteredFood : [];
+
   let thumbKey = type === "meals" ? "strMealThumb" : "strDrinkThumb";
   let valueKey = type === "meals" ? "strMeal" : "strDrink";
   let idKey = type === "meals" ? "idMeal" : "idDrink";
@@ -23,7 +28,7 @@ function FoodContainer({
   } else {
     paginatedItems = data?.slice(startIndex, startIndex + PAGE_SIZE);
   }
-
+  if (isFoodFiltrationErrorOccurred) return <ErrorPage />;
   return (
     <>
       {isLoading && <Spin tip="Loading meals..." size="large" />}
@@ -67,6 +72,6 @@ function FoodContainer({
       )}
     </>
   );
-}
+};
 
 export default FoodContainer;
