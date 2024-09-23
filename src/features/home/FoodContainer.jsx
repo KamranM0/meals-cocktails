@@ -35,6 +35,7 @@ const FoodContainer = ({
       {data && (
         <>
           <Pagination
+            showSizeChanger={false}
             current={currentPage}
             onChange={handlePagination}
             pageSize={PAGE_SIZE}
@@ -42,7 +43,7 @@ const FoodContainer = ({
             total={data?.length}
             style={{ marginBottom: "20px" }}
           />
-          (
+
           <Row justify={"left"} gutter={40} style={{ padding: "0px 120px" }}>
             {paginatedItems?.map((el) => (
               <Col
@@ -60,8 +61,9 @@ const FoodContainer = ({
               </Col>
             ))}
           </Row>
-          )
+
           <Pagination
+            showSizeChanger={false}
             current={currentPage}
             onChange={handlePagination}
             pageSize={PAGE_SIZE}

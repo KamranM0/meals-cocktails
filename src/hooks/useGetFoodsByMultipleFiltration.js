@@ -7,7 +7,6 @@ export const useGetFoodsByMultipleFiltration = (
 ) => {
   const isMealType = type === "meals";
   //meals
-  console.log(chosenFiltrationOptions);
   const {
     data: categoryFilteredMeals,
     isLoading: categoryFilteredMealsIsLoading,

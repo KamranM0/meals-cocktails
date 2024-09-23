@@ -88,6 +88,7 @@ const DetailedFiltrationContainer = ({
                           size="small"
                           total={totalNumOfIngredients}
                           style={{ marginBottom: "20px" }}
+                          showSizeChanger={false}
                         />
                       )}
                     </Radio.Group>

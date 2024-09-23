@@ -34,7 +34,6 @@ const MealPage = () => {
   const dispatch = useDispatch();
   const isHeartActive = favoritesList?.some((el) => el.idFood === id);
   const foodObj = data?.[arrayKey][0];
-  console.log(foodObj);
   const idKey = type === "meals" ? "idMeal" : "idDrink";
   const strKey = type === "meals" ? "strMeal" : "strDrink";
   const strThumbKey = type === "meals" ? "strMealThumb" : "strDrinkThumb";

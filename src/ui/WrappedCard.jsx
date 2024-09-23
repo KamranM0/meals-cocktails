@@ -21,7 +21,6 @@ const WrappedCard = ({ cover, children, style, idFood, type }) => {
     if (!isHeartActive) {
       dispatch(addToFavs(foodObj));
     } else {
-      console.log("girdimki");
       dispatch(removeFromFavs(idFood));
     }
   };
